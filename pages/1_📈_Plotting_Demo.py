@@ -3,9 +3,9 @@ import time
 import numpy as np
 
 # ----------------   THREE HEADERS ---------------------
-st.set_page_config(page_title="Plotting Demo A", page_icon="📈")
-st.markdown("# Plotting Demo B")
-st.sidebar.header("Plotting Demo C")
+st.set_page_config(page_title="Plotting Lab A", page_icon="📈")
+st.markdown("# Plotting Lab B")
+st.sidebar.header("Plotting Lab C")
 
 st.write(
     """This demo illustrates a combination of plotting and animation with
