@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 from urllib.error import URLError
 
-st.set_page_config(page_title="DataFrame Demo", page_icon="📊")
+st.set_page_config(page_title="DataFrame Lab", page_icon="📊")
 
 st.markdown("# DataFrame Demo")
 st.sidebar.header("DataFrame Demo")
@@ -12,6 +12,7 @@ st.write(
 (Data courtesy of the [UN Data Explorer](http://data.un.org/Explorer.aspx).)"""
 )
 
+# ----------------   AWS S3 bucket with data ---------------------
 
 @st.cache_data
 def get_UN_data():
@@ -19,14 +20,17 @@ def get_UN_data():
     df = pd.read_csv(AWS_BUCKET_URL + "/agri.csv.gz")
     return df.set_index("Region")
 
-
+# ----------------   Same Exception ---------------------
 try:
+    # ----------------   Create a data frame from data in multi-select ---------------------
     df = get_UN_data()
     countries = st.multiselect(
         "Choose countries", list(df.index), ["China", "United States of America"]
     )
     if not countries:
         st.error("Please select at least one country.")
+    
+    # ----------------   Setup the Dataframe and render as chart ---------------------
     else:
         data = df.loc[countries]
         data /= 1000000.0
@@ -36,6 +40,7 @@ try:
         data = pd.melt(data, id_vars=["index"]).rename(
             columns={"index": "year", "value": "Gross Agricultural Product ($B)"}
         )
+        # ----------------  Create Chart ---------------------
         chart = (
             alt.Chart(data)
             .mark_area(opacity=0.3)
